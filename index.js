@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: './apiKeys.env' });
+dotenv.config({ path: '../ApiKeys/apiKeys.env' });
 
 import express from "express"
 import axios from "axios"
