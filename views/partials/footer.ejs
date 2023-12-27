@@ -1,0 +1,151 @@
+<script>
+  $(document).ready(function () {
+    $("#location").autocomplete({
+      source: function (request, response) {
+        $.ajax({
+          url: "/autocomplete-location",
+          type: "GET",
+          data: {
+            query: request.term
+          },
+          success: function (data) {
+            response(data.map(item => ({
+              label: item.display_name,
+              value: item.display_name,
+              lat: item.lat,
+              lon: item.lon
+            })));
+          }
+        });
+      },
+      minLength: 3,
+      select: function (event, ui) {
+        // Store the lat and lon values in hidden input fields
+        $('#hiddenLatInput').val(ui.item.lat);
+        $('#hiddenLonInput').val(ui.item.lon);
+      }
+    });
+  });
+</script>
+
+<!-- allows us to use axios within clientside to do AJAX Call -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- Attempt to show the user there location weather current -->
+<script>
+  window.onload = function () {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+          getWeatherData(latitude, longitude);
+        },
+        showError
+      );
+    } else {
+      document.getElementById("weather").innerHTML = "Geolocation is not supported by this browser.";
+    }
+  }
+
+  function getWeatherData(latitude, longitude) {
+    axios.get(`/getWeather?latitude=${latitude}&longitude=${longitude}`)
+      .then(response => {
+        // What will be displayed to the user
+        document.getElementById("weather").innerHTML = `City: ${response.data.name} | Current: ${JSON.stringify(Math.round(response.data.main.temp))}°F | High: ${JSON.stringify(Math.round(response.data.main.temp_max))}°F | Low: ${JSON.stringify(Math.round(response.data.main.temp_min))}°F`;
+        // document.getElementById("weather").insertAdjacentHTML('beforeend', '<div id="high-low"> </div>')
+        // document.getElementById("weather").insertAdjacentHTML('beforeend', `<div id="temp-high">High: ${JSON.stringify(Math.round(response.data.main.temp_max))}°F</div>`);
+        // document.getElementById("weather").insertAdjacentHTML('beforeend', `<div id="temp-min">Low: ${JSON.stringify(Math.round(response.data.main.temp_min))}°F</div>`);
+
+      })
+      .catch(error => {
+        console.error('Error fetching weather data:', error);
+        document.getElementById("weather").innerHTML = "Failed to load weather data.";
+      });
+  }
+
+
+
+  function showError(error) {
+    // Handle geolocation errors here
+  }
+</script>
+
+
+<script>
+  // Select the button element
+const fetchDataButton = document.getElementById('fetchDataButton');
+
+// Add a click event listener to the button
+fetchDataButton.addEventListener('click', () => {
+  // Define the URL you want to make a GET request to
+  const apiUrl = '/'; // Replace with your API endpoint
+
+  // Use Axios to make a GET request
+  axios.get(apiUrl)
+    .then((response) => {
+      // Handle the response data
+      const data = response.data;
+      console.log('Data received:', data);
+
+      // Redirect the user after receiving the response
+      window.location.href = '/'; // Replace with your desired URL
+    })
+    .catch((error) => {
+      // Handle errors, e.g., network issues or server errors
+      console.error('Axios error:', error);
+    });
+});
+
+
+</script>
+ 
+  
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Default coordinates
+    const defaultCoords = [37.82, -95.57];
+  
+    // Initialize the map with default coordinates
+    var map = L.map('map').setView(defaultCoords, 5);
+  
+    // Parse the city data from the JSON string if it's not null
+    const cityAsJSON = '<%- cityAsJSON %>';
+    const city = cityAsJSON ? JSON.parse(cityAsJSON) : null;
+  
+    // Load OpenStreetMap tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  
+    // Weather tiles URL template
+    var weatherTileUrlTemplate = '/weather-tile/{z}/{x}/{y}';
+  
+    // Add the precipitation layer
+    var precipitationLayer = L.tileLayer(weatherTileUrlTemplate, {
+      attribution: '© OpenWeatherMap'
+    });
+    precipitationLayer.addTo(map);
+  
+    // Function to update the map based on city coordinates
+    function updateMapWithCityCoords(lat, lon) {
+      if (typeof lat === 'number' && typeof lon === 'number') {
+        // Update the map view with city coordinates
+        map.setView([lat, lon], 10);
+      } else {
+        map.setView(defaultCoords, 5);
+      }
+    }
+  
+    if (city) {
+      const selectedCityLat = city.coord.lat;
+      const selectedCityLon = city.coord.lon;
+      updateMapWithCityCoords(selectedCityLat, selectedCityLon);
+    }
+  });
+  </script>
+  
+
+
+
+</body>
+
+</html>
