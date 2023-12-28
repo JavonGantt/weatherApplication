@@ -6,18 +6,18 @@
             <div id="map" class="map-city"></div>
     
             <div class="city-info">
+                <p class="currentTime"></p>
                 <h2><%= city.name %>, <%= city.country %></h2>
+                <p class="main-temp"><%= Math.round(currentTemp.temp) %>°F</p>
+                <p><%= Math.round(currentTemp.temp_max) %> / <%= Math.round(currentTemp.temp_min) %>°F</p>
                 <ul>
-                    <li><strong>Population:</strong> <%= city.population %></li>
+                    <li><strong>Feels like <%= Math.round(currentTemp.feels_like) %>°F with <%= mainDescription.description %>.</strong> </li>
                 </ul>
-                
                 <h2>Current Weather</h2>
-                <p><strong>Main Description:</strong> <%= mainDescription.description %></p>
                 <ul>
-                    <li><strong>Current Temperature:</strong> <%= Math.round(currentTemp.temp) %>°F</li>
-                    <li><strong>Feels Like:</strong> <%= Math.round(currentTemp.feels_like) %>°F</li>
-                    <li><strong>Max Temp:</strong> <%= Math.round(currentTemp.temp_max) %>°F</li>
-                    <li><strong>Min Temp:</strong> <%= Math.round(currentTemp.temp_min) %>°F</li>
+                    <li><%= currentWind.speed %>mph  <%= cardDirections %> </li>
+                    <li>Humidity: <%= currentTemp.humidity %>%</li>
+                    <li>Visibility: <%= visibility/1000 %>km</li>
                 </ul>
             </div>
         </div>

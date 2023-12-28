@@ -182,7 +182,8 @@ p {
 
 /* Temperature Values */
 ul li strong {
-  color: #00aaff; /* Primary Color for Strong Text */
+  /* color: #00aaff; Primary Color for Strong Text */
+  font-size: 20px;
 }
 
 /* City Name and Country */

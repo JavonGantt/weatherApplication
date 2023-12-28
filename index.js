@@ -112,7 +112,8 @@ app.post("/find-city", async (req, res) => {
       const currentClouds = currentWeatherData.clouds
       const currentSunrise = currentWeatherData.sys
       const weather = currentWeatherData.weather[0]
-
+      const cardDirections = getCardinalDirection(currentWind.deg)
+      const visibility = currentWeatherData.visibility
 
       res.render('index.ejs', {
         cod: cod,
@@ -126,7 +127,9 @@ app.post("/find-city", async (req, res) => {
         currentSunrise: currentSunrise,
         currentTemp: currentTemp,
         currentWind: currentWind,
-        mainDescription: weather
+        mainDescription: weather,
+        cardDirections: cardDirections,
+        visibility: visibility
        
     });
 
@@ -191,6 +194,12 @@ function groupByDate(list) {
   }, {});
 }
 
+
+// could repurpose to seperate the direction and angle for cleaner ui?
+function getCardinalDirection(angle) {
+  const directions = ['↑N', '↗NE', '→E', '↘SE', '↓S', '↙SW', '←W', '↖NW'];
+  return directions[Math.round(angle / 45) % 8];
+}
 
 
 app.listen(port, () => {
