@@ -14,10 +14,10 @@
                 <h2>Current Weather</h2>
                 <p><strong>Main Description:</strong> <%= mainDescription.description %></p>
                 <ul>
-                    <li><strong>Current Temperature:</strong> <%= currentTemp.temp %>°F</li>
-                    <li><strong>Feels Like:</strong> <%= currentTemp.feels_like %>°F</li>
-                    <li><strong>Max Temp:</strong> <%= currentTemp.temp_max %>°F</li>
-                    <li><strong>Min Temp:</strong> <%= currentTemp.temp_min %>°F</li>
+                    <li><strong>Current Temperature:</strong> <%= Math.round(currentTemp.temp) %>°F</li>
+                    <li><strong>Feels Like:</strong> <%= Math.round(currentTemp.feels_like) %>°F</li>
+                    <li><strong>Max Temp:</strong> <%= Math.round(currentTemp.temp_max) %>°F</li>
+                    <li><strong>Min Temp:</strong> <%= Math.round(currentTemp.temp_min) %>°F</li>
                 </ul>
             </div>
         </div>
@@ -31,12 +31,12 @@
                 <div class="weather-card">
                     <h3><%= groupedData[date].formattedDate %></h3>
                     <% if (groupedData[date].tempHigh !== undefined) { %>
-                        <p>High: <%= groupedData[date].tempHigh.toFixed(2) %>°F</p>
+                        <p>High: <%= groupedData[date].tempHigh %>°F</p>
                     <% } else { %>
                         <p>High: Data not available</p>
                     <% } %>
                     <% if (groupedData[date].tempLow !== undefined) { %>
-                        <p>Low: <%= groupedData[date].tempLow.toFixed(2) %>°F</p>
+                        <p>Low: <%= groupedData[date].tempLow%>°F</p>
                     <% } else { %>
                         <p>Low: Data not available</p>
                     <% } %>

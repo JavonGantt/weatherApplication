@@ -159,27 +159,31 @@ function roundToDecimalPlaces(value, decimalPlaces) {
 
 function groupByDate(list) {
 
-function formatDateString(dateString) {
-    const options = { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' };
-    const date = new Date(dateString + 'T00:00:00Z'); // Append time and timezone to ensure UTC
-    return date.toLocaleDateString('en-US', options);
-}
-
+  function formatDateString(dateString) {
+      const options = { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'UTC' };
+      const date = new Date(dateString + 'T00:00:00Z'); // Append time and timezone to ensure UTC
+      return date.toLocaleDateString('en-US', options);
+  }
 
   return list.reduce((acc, item) => {
       const date = item.dt_txt.split(' ')[0]; // Extracting the date part from 'dt_txt'
-      
+      const tempMax = item.main.temp_max; // Get temp_max
+      const tempMin = item.main.temp_min; // Get temp_min
       if (!acc[date]) {
           acc[date] = {
               formattedDate: formatDateString(date), // Adding formatted date
-              tempHigh: item.main.temp_max,
-              tempLow: item.main.temp_min,
+              tempHigh: tempMax,
+              tempLow: tempMin,
               items: [] // Initialize items array
           };
       } else {
-          acc[date].tempHigh = Math.max(acc[date].tempHigh, item.main.temp_max);
-          acc[date].tempLow = Math.min(acc[date].tempLow, item.main.temp_min);
+          acc[date].tempHigh = Math.max(acc[date].tempHigh, tempMax);
+          acc[date].tempLow = Math.min(acc[date].tempLow, tempMin);
       }
+
+      // Round tempHigh and tempLow to nearest integer
+      acc[date].tempHigh = Math.round(acc[date].tempHigh);
+      acc[date].tempLow = Math.round(acc[date].tempLow);
 
       acc[date].items.push(item); // Add item to the items array for the date
       
