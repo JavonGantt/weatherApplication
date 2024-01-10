@@ -115,13 +115,24 @@ h1, h2, h3 {
   border-bottom-left-radius: 25px;
 }
 
+
 #map { 
-  height: 700px;
-  width: 65%;
+  height: 70vh; /* 70% of the viewport height */
+  width: 65%;   /* 65% of the parent container's width */
   border-radius: 25px;
   box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.5);
 }
 
+@media (max-width: 815px) {
+  #map { 
+    height: 70vh; /* 70% of the viewport height */
+    width: 90%;   /* 65% of the parent container's width */
+    border-radius: 25px;
+    box-shadow: 10px 10px 20px 0 rgba(0, 0, 0, 0.5);
+  }
+
+  
+}
 
 .map-city{
   height: 500px !important;
@@ -142,10 +153,6 @@ h1, h2, h3 {
   display: flex;
   justify-content: center;
   margin-top: 3%;
-  /* background-color: #00aaff;
-  margin: 2% 5%  ;
-  border-top-left-radius: 25px;
-  border-bottom-left-radius: 25px; */
 }
 
 /* City Information Styles */

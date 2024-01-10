@@ -52,7 +52,9 @@
     axios.get(`/getWeather?latitude=${latitude}&longitude=${longitude}`)
       .then(response => {
         // What will be displayed to the user
-        document.getElementById("weather").innerHTML = `City: ${response.data.name} | Current: ${JSON.stringify(Math.round(response.data.main.temp))}°F | High: ${JSON.stringify(Math.round(response.data.main.temp_max))}°F | Low: ${JSON.stringify(Math.round(response.data.main.temp_min))}°F`;
+        document.getElementById("weather").innerHTML = `<span id="temperatureData"> Current: ${JSON.stringify(Math.round(response.data.main.temp))}°F | High: ${JSON.stringify(Math.round(response.data.main.temp_max))}°F | Low: ${JSON.stringify(Math.round(response.data.main.temp_min))}°F</span>`;
+
+
         // document.getElementById("weather").insertAdjacentHTML('beforeend', '<div id="high-low"> </div>')
         // document.getElementById("weather").insertAdjacentHTML('beforeend', `<div id="temp-high">High: ${JSON.stringify(Math.round(response.data.main.temp_max))}°F</div>`);
         // document.getElementById("weather").insertAdjacentHTML('beforeend', `<div id="temp-min">Low: ${JSON.stringify(Math.round(response.data.main.temp_min))}°F</div>`);
@@ -65,7 +67,7 @@
   }
 
 
-
+ 
   function showError(error) {
     // Handle geolocation errors here
   }

@@ -64,7 +64,7 @@ app.get('/weather-tile/:z/:x/:y', async (req, res) => {
     return res.send(tileCache[cacheKey].data);
   }
 
-  const tileUrl = `https://tile.openweathermap.org/map/precipitation_new/${z}/${x}/${y}.png?appid=${API_KEY}`;
+  const tileUrl = `https://tile.openweathermap.org/map/temp_new/${z}/${x}/${y}.png?appid=${API_KEY}`;
 
   try {
     const response = await axios.get(tileUrl, { responseType: 'arraybuffer' });
